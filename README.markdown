@@ -4,6 +4,11 @@ This project is **to reproduce unexpected "NoSuchMethodError: android.database.s
 
 This very straight forward Android project source code throws NoSuchMethodError :android.database.sqlite.SQLiteClosable.close .
 
+You can built this project by following commands,connecting with an Android device via USB.
+
+	sbt
+	android:start-device
+
 This is because *"new SQLHelperDemo(this).getReadableDatabase.close()"* in android-16 has been compiled to *SQLiteClosable.close()* in bytecodes by Scala 2.10.x that doesn't exist in android-15. It should be *SQLiteDatabase.close()* at least in this case. Please find below javap results in Scala2.9.x and Scala2.10.x.
 
 For your info, SQLiteDatabase starts to inherit "close()" method from SQLiteClosable at android-16, while SQLiteDatabase implemented "close()" method without any inheritance until android-15.
